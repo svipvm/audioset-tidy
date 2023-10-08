@@ -10,8 +10,8 @@ params = {
     'block_second': 1.5,
     'resampling_rate': 32000,
     'n_fft': 1024,
-    'hop_length': 750,
     'win_length': 1024,
+    'hop_length': 750,
     'lower_hertz': 50,
     'upper_hertz': 14000,
     'mel_bins': 64
