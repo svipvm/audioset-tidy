@@ -3,11 +3,15 @@ from tqdm import tqdm
 import numpy as np
 import pandas as pd
 
-DATA_DIR = '/media/ubuntu/HD/Data/Audioset-Seg/data_logmel'
-SAVE_DIR = '/media/ubuntu/HD/Data/Audioset-Seg/data_logmel_hdf5'
+# DATA_DIR = '/media/ubuntu/HD/Data/Audioset-Seg/data_logmel'
+# DATA_DIR = '/media/ubuntu/HD/Data/Audioset-Seg/data_logmel_1.5s_h320'
+DATA_DIR = '/media/ubuntu/HD/Data/Audioset-Seg/data_logmel_1.0s_h250'
+SAVE_DIR = f'{DATA_DIR}_hdf5'
 
 BATCH_SIZE = 1024
-INPUT_SHAPE = (65, 64)
+# INPUT_SHAPE = (65, 64)
+# INPUT_SHAPE = (151, 64)
+INPUT_SHAPE = (129, 64)
 
 if __name__ == '__main__':
     metadata = pd.read_csv('./metadata/tiff_metadata.csv')

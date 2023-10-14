@@ -7,11 +7,11 @@ import numpy as np
 import librosa
 
 params = {
-    'block_second': 1.5,
+    'block_second': 1.0,
     'resampling_rate': 32000,
     'n_fft': 1024,
     'win_length': 1024,
-    'hop_length': 750,
+    'hop_length': 250,
     'lower_hertz': 50,
     'upper_hertz': 14000,
     'mel_bins': 64
@@ -62,9 +62,9 @@ def convert_to_logmel_data(wav_file):
     global SAVE_DIR
 
     if EVAL_MODE: 
-        save_dir = os.path.join(SAVE_DIR, 'data_e_logmel')
+        save_dir = os.path.join(SAVE_DIR, f"data_e_logmel_{params['block_second']}s_h{params['hop_length']}")
     else:
-        save_dir = os.path.join(SAVE_DIR, 'data_logmel')
+        save_dir = os.path.join(SAVE_DIR, f"data_logmel_{params['block_second']}s_h{params['hop_length']}")
     os.makedirs(save_dir, exist_ok=True)
 
     seg_class = wav_file.split('/')[-2]

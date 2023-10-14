@@ -1,6 +1,9 @@
 metadata
 data
 
+__pycache__
+
 *.h5
 *.tiff
 *.out
+*.pyc

@@ -14,8 +14,8 @@ SAVE_DIR = '/media/ubuntu/HD/Data/Audioset-Seg'
 
 PARAMS = {
     'train_strong': './metadata/strong/audioset_train_strong.tsv',
-    'eval_strong': './metadata/strong/audioset_eval_strong.tsv',
-    'label_tsv': './metadata/strong/mid_to_display_name.tsv'
+    'eval_strong':  './metadata/strong/audioset_eval_strong.tsv',
+    'label_tsv':    './metadata/strong/mid_to_display_name.tsv'
 }
 
 global_metadata = None
@@ -80,13 +80,13 @@ if __name__ == '__main__':
     label_data.rename({0: 'label', 1: 'class'}, axis=1, inplace=True)
     label_data['class'] = label_data['class'].apply(lambda x: x.replace(' ', '-'))
 
-    # train_data = pd.read_csv(PARAMS['train_strong'], delimiter='\t')
-    # train_data = pd.merge(train_data, label_data, on='label')
-    # train_data['segment_id'] = train_data['segment_id'].apply(lambda x: '_'.join(x.split('_')[:-1]))
-    # process_seg_wav(DATA_DIR, train_data)
+    train_data = pd.read_csv(PARAMS['train_strong'], delimiter='\t')
+    train_data = pd.merge(train_data, label_data, on='label')
+    train_data['segment_id'] = train_data['segment_id'].apply(lambda x: '_'.join(x.split('_')[:-1]))
+    process_seg_wav(DATA_DIR, train_data)
 
-    eval_data = pd.read_csv(PARAMS['eval_strong'], delimiter='\t')
-    eval_data = pd.merge(eval_data, label_data, on='label')
-    eval_data['segment_id'] = eval_data['segment_id'].apply(lambda x: '_'.join(x.split('_')[:-1]))
-    EVAL_MODE = True
-    process_seg_wav(DATA_DIR, eval_data)
+    # eval_data = pd.read_csv(PARAMS['eval_strong'], delimiter='\t')
+    # eval_data = pd.merge(eval_data, label_data, on='label')
+    # eval_data['segment_id'] = eval_data['segment_id'].apply(lambda x: '_'.join(x.split('_')[:-1]))
+    # EVAL_MODE = True
+    # process_seg_wav(DATA_DIR, eval_data)
