@@ -60,3 +60,23 @@ class PriorityQueue:
 
     def is_empty(self):
         return len(self._queue) == 0
+
+def pad_or_truncate(x, audio_length):
+    """Pad all audio to specific length."""
+    if len(x) <= audio_length:
+        return np.concatenate((x, np.zeros(audio_length - len(x))), axis=0)
+    else:
+        return x[0 : audio_length]
+    
+def select_middle_portion(arr, desired_length):
+    if len(arr) < desired_length:
+        raise ValueError("Array length is less than the desired length")
+
+    middle_index = len(arr) // 2
+    half_length = desired_length // 2
+    start_index = middle_index - half_length
+    end_index = start_index + desired_length
+
+    selected_portion = arr[start_index:end_index, :]
+
+    return selected_portion
