@@ -8,7 +8,10 @@ from multiprocessing import Pool
 from utils.util_process import *
 
 DATA_DIR = '/media/ubuntu/ssd2t/AIGroup/Audio-Data/audioset_strong'
-LOGMEL_DIR_NAMES = ['audioset_logmel', 'urbansound8k_logmel']
+# LOGMEL_DIR_NAMES = ['audioset_logmel_16k', 'urbansound8k_logmel_16k', 'plain_logmel_16k']
+# LOGMEL_DIR_NAMES = ['audioset_logmel_32k', 'urbansound8k_logmel_32k', 'plain_logmel_32k']
+LOGMEL_DIR_NAMES = ['audioset_logmel_16k', 'urbansound8k_logmel_16k']
+# LOGMEL_DIR_NAMES = ['audioset_logmel_32k', 'urbansound8k_logmel_32k']
 PROCESS_MODE = 'eval'
 
 assert PROCESS_MODE in ('train', 'eval')

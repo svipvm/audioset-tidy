@@ -8,29 +8,44 @@ from multiprocessing import Pool
 from utils.util_process import *
 
 import matplotlib.pyplot as plt
-from IPython.display import Audio
+from IPython.display import Audio 
 
 DATA_DIR = '/media/ubuntu/HD_new/download/audioset/audios'
 META_DIR = '/home/whq/projects/with-dog-audio/audioset-tidy/metadata'
 SAVE_DIR = '/media/ubuntu/ssd2t/AIGroup/Audio-Data/audioset_strong'
 
-WAV_DIR_NAME = 'audioset_wav'
-LOGMEL_DIR_NAME = 'audioset_logmel'
+WAV_DIR_NAME = 'audioset_wav_16k'
+LOGMEL_DIR_NAME = 'audioset_logmel_16k'
+# WAV_DIR_NAME = 'audioset_wav_32k'
+# LOGMEL_DIR_NAME = 'audioset_logmel_32k'
 
 PROCESS_MODE = 'eval'
 assert PROCESS_MODE in ['train', 'eval']
 
+# params = {
+#     'sample_rate': 32000,
+#     'clip_samples': 32000 * 10,
+#     'crop_second': 2.0,
+#     'croped_pad_second': 0.05,
+#     'input_size': (int(32000 * 2.0 / 320) + 1, 64),
+#     'n_fft': 1024,
+#     'hop_length': 320,
+#     'win_length': 1024,
+#     'lower_hertz': 50,
+#     'upper_hertz': 14000,
+#     'mel_bins': 64
+# }
 params = {
-    'sample_rate': 32000,
-    'clip_samples': 32000 * 10,
+    'sample_rate': 16000,
+    'clip_samples': 16000 * 10,
     'crop_second': 2.0,
     'croped_pad_second': 0.05,
-    'input_size': (int(32000 * 2.0 / 320) + 1, 64),
-    'n_fft': 1024,
-    'hop_length': 320,
-    'win_length': 1024,
+    'input_size': (int(16000 * 2.0 / 160) + 1, 64),
+    'n_fft': 512,
+    'hop_length': 160,
+    'win_length': 512,
     'lower_hertz': 50,
-    'upper_hertz': 14000,
+    'upper_hertz': 8000,
     'mel_bins': 64
 }
 POSITIVE_CLSSSES = ['Bark', 'Bow-wow', 'Yip']
@@ -142,6 +157,8 @@ def convert_to_seg(audio_file):
 
         class_labels = get_unique_classes(pq._queue, axis=-1)
         if len(class_labels) == 0: continue
+        if np.isin(class_labels, POSITIVE_LABELS).any() \
+            ^ weak_include_pos_flag: continue
 
         if start_time - params['croped_pad_second'] < 0:
             start_time = start_time
@@ -265,7 +282,14 @@ if __name__ == '__main__':
     POSITIVE_LABELS = [CLASS2LABEL[x] for x in POSITIVE_CLSSSES]
     IGNORE_LABELS = [CLASS2LABEL[x] for x in IGNORE_CLASSES]
 
-    wav_files = get_all_strong_wavs(PROCESS_MODE)
+    wav_list_file = f"{META_DIR}/audioset_wavs_{PROCESS_MODE}"
+    if os.path.isfile(wav_list_file):
+        with open(wav_list_file, 'r') as f:
+            wav_files = eval(f.read())
+    else:
+        wav_files = get_all_strong_wavs(PROCESS_MODE)
+        with open(wav_list_file, 'w') as f:
+            f.write(str(wav_files))
 
     save_csv_file = f"{SAVE_DIR}/{WAV_DIR_NAME}/{PROCESS_MODE}.csv"
     final_dataframe = []
